@@ -18,6 +18,6 @@ class TicketController extends Controller
 
     public function index()
     {
-        return Ticket::paginate();
+        return Ticket::forStaff()->paginate(10);
     }
 }

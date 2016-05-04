@@ -13,6 +13,11 @@ class Ticket extends Model
         return $this->hasMany(Reply::class);
     }
 
+    public static function forStaff()
+    {
+        return static::where('status', 'new')->orWhere('status', 'awaiting_reply');
+    }
+
     public function getReadableStatusAttribute()
     {
         switch($this->status) {

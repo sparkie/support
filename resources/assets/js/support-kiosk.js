@@ -8,7 +8,8 @@ Vue.component('support-kiosk', {
     data() {
         return {
             tickets: [],
-            paginator: {}
+            paginator: {},
+            loading: false
         }
     },
 
@@ -25,26 +26,32 @@ Vue.component('support-kiosk', {
          * Get the tickets.
          */
         getTickets() {
+            this.loading = true;
             this.$http.get('/kiosk/support/all')
                 .then(response => {
                     this.paginator = response.data;
                     this.tickets = response.data.data;
+                    this.loading = false;
                 });
         },
 
         next() {
+            this.loading = true;
             this.$http.get('/kiosk/support/all?page=' + (this.paginator.current_page + 1))
                 .then(response => {
                     this.paginator = response.data;
                     this.tickets = response.data.data;
+                    this.loading = false;
                 });
         },
 
         previous() {
+            this.loading = true;
             this.$http.get('/kiosk/support/all?page=' + (this.paginator.current_page - 1))
                 .then(response => {
                     this.paginator = response.data;
                     this.tickets = response.data.data;
+                    this.loading = false;
                 });
         }
     }

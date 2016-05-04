@@ -1,7 +1,12 @@
 <support-kiosk inline-template>
     <div>
         <div class="panel panel-default">
-            <div class="panel-heading">Tickets</div>
+            <div class="panel-heading">
+                Tickets
+                <div class="pull-right" v-if="loading">
+                    <i class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+                </div>
+            </div>
 
             <div class="panel-body">
                 <table class="table table-borderless m-b-none">
