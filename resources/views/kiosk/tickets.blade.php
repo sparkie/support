@@ -47,6 +47,17 @@
                     </tbody>
                 </table>
             </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col col-xs-12">
+                        <ul class="pagination pull-right">
+                            <li v-if="paginator.prev_page_url"><a @click="previous()">&leftarrow;</a></li>
+                            <li class="disabled"><span>Page @{{ paginator.current_page }} of @{{ paginator.last_page }}</span></li>
+                            <li v-if="paginator.next_page_url"><a @click="next()">&rightarrow;</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </support-kiosk>

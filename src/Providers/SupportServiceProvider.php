@@ -16,6 +16,10 @@ class SupportServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/../../resources/views/', 'support');
         $this->setupRoutes($this->app->router);
+
+        $this->publishes([
+            __DIR__.'/../../config/config.php' => config_path('support.php'),
+        ]);
     }
 
     /**
