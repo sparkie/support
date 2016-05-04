@@ -9,7 +9,8 @@ Vue.component('support-kiosk', {
         return {
             tickets: [],
             paginator: {},
-            loading: false
+            loading: false,
+            viewingTicket: false
         }
     },
 
@@ -25,34 +26,34 @@ Vue.component('support-kiosk', {
         /**
          * Get the tickets.
          */
-        getTickets() {
+        getTickets(direction) {
             this.loading = true;
-            this.$http.get('/kiosk/support/all')
+
+            var url = '/kiosk/support/all';
+            if(direction == 'next') {
+                url += '?page=' + (this.paginator.current_page + 1)
+            }
+
+            if(direction == 'previous' || direction == 'prev') {
+                url += '?page=' + (this.paginator.current_page - 1)
+            }
+
+            this.$http.get(url)
                 .then(response => {
                     this.paginator = response.data;
                     this.tickets = response.data.data;
                     this.loading = false;
+
+                    // TODO: remove
+                    this.viewTicket(this.tickets[0]);
                 });
         },
 
-        next() {
-            this.loading = true;
-            this.$http.get('/kiosk/support/all?page=' + (this.paginator.current_page + 1))
-                .then(response => {
-                    this.paginator = response.data;
-                    this.tickets = response.data.data;
-                    this.loading = false;
-                });
-        },
-
-        previous() {
-            this.loading = true;
-            this.$http.get('/kiosk/support/all?page=' + (this.paginator.current_page - 1))
-                .then(response => {
-                    this.paginator = response.data;
-                    this.tickets = response.data.data;
-                    this.loading = false;
-                });
+        /**
+         * View a Ticket
+         */
+        viewTicket(ticket) {
+            this.viewingTicket = ticket;
         }
     }
 });
