@@ -29,7 +29,7 @@ Vue.component('support-kiosk', {
         getTickets(direction) {
             this.loading = true;
 
-            var url = '/kiosk/support/all';
+            var url = '/kiosk/support/ticket';
             if(direction == 'next') {
                 url += '?page=' + (this.paginator.current_page + 1)
             }
@@ -43,9 +43,6 @@ Vue.component('support-kiosk', {
                     this.paginator = response.data;
                     this.tickets = response.data.data;
                     this.loading = false;
-
-                    // TODO: remove
-                    this.viewTicket(this.tickets[0]);
                 });
         },
 
@@ -54,6 +51,20 @@ Vue.component('support-kiosk', {
          */
         viewTicket(ticket) {
             this.viewingTicket = ticket;
+
+            if(ticket.hasOwnProperty('id')) {
+                this.getTicket(ticket.id);
+            }
+        },
+
+        /**
+         * Get a Ticket.
+         */
+        getTicket(id) {
+            this.$http.get('/kiosk/support/ticket/' + id)
+                .then(response => {
+                    this.viewingTicket = response.data;
+                });
         }
     }
 });

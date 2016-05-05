@@ -20,4 +20,9 @@ class TicketController extends Controller
     {
         return Ticket::forStaff()->paginate(10);
     }
+
+    public function show($id)
+    {
+        return Ticket::with('replies')->findOrFail($id);
+    }
 }
